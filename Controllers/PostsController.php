@@ -13,8 +13,19 @@ class PostsController {
   }
 
   public function getHomePage() {
-    $datas = $this->_db->getAllPosts();
+    $posts = $this->_db->getAllPosts();
+    ob_start();
     require 'Views/homepage.php';
+    $content = ob_get_clean();
+    require 'Views/template.php';
+  }
+
+  public function getChapter($chapitreId) {
+    $post = $this->_db->getSinglePost($chapitreId);
+    ob_start();
+    require 'Views/chapter.php';
+    $content = ob_get_clean();
+    require 'Views/template.php';
   }
 
 }

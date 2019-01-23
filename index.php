@@ -10,4 +10,12 @@ spl_autoload_register(function($class) {
 });
 
 $postsController = new Controllers\PostsController();
-$postsController->getHomePage();
+
+if (isset($_GET['chapitre'])) {
+  $chapitreId = $_GET['chapitre'];
+  $postsController->getChapter($chapitreId);
+}
+
+else {
+  $postsController->getHomePage();
+}
