@@ -9,11 +9,12 @@ spl_autoload_register(function($class) {
   require $class;
 });
 
+// Initialisation du Controller
 $postsController = new Controllers\PostsController();
 
 if (isset($_GET['chapitre'])) {
-  $chapitreId = $_GET['chapitre'];
-  $postsController->getChapter($chapitreId);
+  $chapterId = $_GET['chapitre'];
+  $postsController->getChapter($chapterId);
 }
 
 else {

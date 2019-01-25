@@ -20,8 +20,15 @@ class PostsController {
     require 'Views/template.php';
   }
 
-  public function getChapter($chapitreId) {
-    $post = $this->_db->getSinglePost($chapitreId);
+  public function getChapter($chapterId) {
+    if (!empty($_POST['name']) && !empty($_POST['comment'])) {
+      $this->_db->setComment($chapterId, $_POST['name'], $_POST['comment']);
+    }
+    if (!empty($_POST['report_id'])) {
+      $this->_db->setCommentReport($_POST['report_id']);
+    }
+    $post = $this->_db->getSinglePost($chapterId);
+    $comments = $this->_db->getComments($chapterId);
     ob_start();
     require 'Views/chapter.php';
     $content = ob_get_clean();
