@@ -1,11 +1,11 @@
 <?php
 
-namespace Controllers;
+namespace Src\Controller;
 
-use \Models\Posts;
-use \Models\Comments;
+use Src\Model\Posts;
+use Src\Model\Comments;
 
-class Controller {
+class Blog {
 
   private $_postsInst;
   private $_commentsInst;
@@ -18,9 +18,9 @@ class Controller {
   public function home() {
     $posts = $this->_postsInst->allPosts();
     ob_start();
-    require 'Views/home.php';
+    require '../Src/View/home.php';
     $content = ob_get_clean();
-    require 'Views/template.php';
+    require '../Src/View/template.php';
   }
 
   public function chapter($chapterId) {
@@ -28,9 +28,9 @@ class Controller {
     $post = $this->_postsInst->singlePost($chapterId);
     $comments = $this->_commentsInst->comments($chapterId);
     ob_start();
-    require 'Views/chapter.php';
+    require '../Src/View/chapter.php';
     $content = ob_get_clean();
-    require 'Views/template.php';
+    require '../Src/View/template.php';
   }
 
   private function commentsChecking($chapterId) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Models;
+namespace Src\Model;
 
-use \Db_config;
+use \App\Db_config;
 
 class Comments {
 

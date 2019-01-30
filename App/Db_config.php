@@ -1,5 +1,9 @@
 <?php
 
+namespace App;
+
+use \PDO;
+
 class Db_config {
 
   private static $_dbname = 'blog';

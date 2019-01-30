@@ -5,12 +5,12 @@ session_start();
 
 // Autoloader
 spl_autoload_register(function($class) {
-  $class = str_replace('\\', '/', $class) . '.php';
+  $class = '../' . str_replace('\\', '/', $class) . '.php';
   require $class;
 });
 
 // Initialisation du Controller
-$controller = new Controllers\Controller();
+$controller = new Src\Controller\Blog();
 
 if (isset($_GET['chapitre'])) {
   $controller->chapter($_GET['chapitre']);
@@ -21,7 +21,7 @@ else {
 }
 
 
-
+// index.php/[nom controller a appeler]/[nom de la methode]
 // index.php
 // index.php?chapitre=1
 // index.php/inscription
