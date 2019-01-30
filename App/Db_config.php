@@ -6,13 +6,13 @@ use \PDO;
 
 class Db_config {
 
-  private static $_dbname = 'blog';
-  private static $_dbuser = 'root';
-  private static $_dbpass = 'root';
-  private static $_dbhost = 'localhost';
+  private static $dbname = 'blog';
+  private static $dbuser = 'root';
+  private static $dbpass = 'root';
+  private static $dbhost = 'localhost';
 
   public static function getPDO() {
-    $pdo = new PDO('mysql:dbname=' . self::$_dbname . ';host=' . self::$_dbhost, self::$_dbuser, self::$_dbpass);
+    $pdo = new PDO('mysql:dbname=' . self::$dbname . ';host=' . self::$dbhost, self::$dbuser, self::$dbpass);
     return $pdo;
   }
 

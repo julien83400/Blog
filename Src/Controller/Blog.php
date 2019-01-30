@@ -2,21 +2,21 @@
 
 namespace Src\Controller;
 
-use Src\Model\Posts;
-use Src\Model\Comments;
+use Src\Model\Posts_manager;
+use Src\Model\Comments_manager;
 
 class Blog {
 
-  private $_postsInst;
-  private $_commentsInst;
+  private $postsInst;
+  private $commentsInst;
 
   public function __construct() {
-    $this->_postsInst = new Posts();
-    $this->_commentsInst = new Comments();
+    $this->postsInst = new Posts_manager();
+    $this->commentsInst = new Comments_manager();
   }
 
   public function home() {
-    $posts = $this->_postsInst->allPosts();
+    $posts = $this->postsInst->allPosts();
     ob_start();
     require '../Src/View/home.php';
     $content = ob_get_clean();
@@ -25,8 +25,8 @@ class Blog {
 
   public function chapter($chapterId) {
     $this->commentsChecking($chapterId);
-    $post = $this->_postsInst->singlePost($chapterId);
-    $comments = $this->_commentsInst->comments($chapterId);
+    $post = $this->postsInst->singlePost($chapterId);
+    $comments = $this->commentsInst->comments($chapterId);
     ob_start();
     require '../Src/View/chapter.php';
     $content = ob_get_clean();
@@ -35,10 +35,10 @@ class Blog {
 
   private function commentsChecking($chapterId) {
     if (!empty($_POST['name']) && !empty($_POST['comment'])) {
-      $this->_commentsInst->addComment($chapterId, $_POST['name'], $_POST['comment']);
+      $this->commentsInst->addComment($chapterId, $_POST['name'], $_POST['comment']);
     }
     if (!empty($_POST['report_id'])) {
-      $this->_commentsInst->addCommentReport($_POST['report_id']);
+      $this->commentsInst->addCommentReport($_POST['report_id']);
     }
   }
 

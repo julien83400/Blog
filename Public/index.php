@@ -12,6 +12,7 @@ spl_autoload_register(function($class) {
 // Initialisation du Controller
 $controller = new Src\Controller\Blog();
 
+// Router
 if (isset($_GET['chapitre'])) {
   $controller->chapter($_GET['chapitre']);
 }
