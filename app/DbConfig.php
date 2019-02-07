@@ -4,7 +4,7 @@ namespace App;
 
 use \PDO;
 
-class Db_config {
+class DbConfig {
 
   private static $dbname = 'blog';
   private static $dbuser = 'root';

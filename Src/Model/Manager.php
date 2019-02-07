@@ -2,14 +2,14 @@
 
 namespace Src\Model;
 
-use \App\Db_config;
+use \App\DbConfig;
 
 class Manager {
 
   protected $pdo;
 
   public function __construct() {
-    $this->pdo = Db_config::getPDO();
+    $this->pdo = DbConfig::getPDO();
   }
 
 }

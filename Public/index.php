@@ -21,7 +21,8 @@ else {
   $controller->home();
 }
 
-
+// URL rewriting htaccess.
+// Class dispatch dans dossier app
 // index.php/[nom controller a appeler]/[nom de la methode]
 // index.php
 // index.php?chapitre=1
