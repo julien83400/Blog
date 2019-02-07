@@ -16,7 +16,7 @@ class CommentsManager extends Manager {
   }
 
   public function comments($chapterId) {
-    $req = $this->pdo->prepare('SELECT *, DATE_FORMAT(date, " Le %d/%m/%Y à %Hh%imin%ss") as date FROM comments WHERE post_id = ? ORDER BY date DESC');
+    $req = $this->pdo->prepare('SELECT * FROM comments WHERE post_id = ? ORDER BY date DESC');
     $req->execute([$chapterId]);
     $comments = $req->fetchAll(PDO::FETCH_CLASS, 'App\Comment');
     return $comments;

@@ -1,6 +1,6 @@
 <div>
   <a href="index.php">Retour à la page d'accueil</a>
-  <h1>Billet simple pour l'Alaska</h1>
+  <h1>Comment cacher un playmobile dans son anus ?</h1>
   <h2><?= $post->title; ?></h2>
   <p><?= $post->content; ?></p>
   <h2>Commentaires</h2>

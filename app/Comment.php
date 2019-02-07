@@ -18,6 +18,7 @@ class Comment {
       $this->setName($name);
       $this->setComment($comment);
     }
+    $this->dateFormat($this->date);
   }
 
   private function setId($id) {
@@ -34,6 +35,10 @@ class Comment {
 
   private function setComment($comment) {
     $this->comment = $comment;
+  }
+
+  private function dateFormat($date) {
+    $this->date = strftime('Le %d/%m/%Y à %Hh%Mmin%Ss',strtotime($date));
   }
 
 }
