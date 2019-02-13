@@ -4,7 +4,7 @@ namespace Src\Controller;
 
 use Src\Model\PostsManager;
 use Src\Model\CommentsManager;
-use \App\Comment;
+use Src\Model\Comment;
 
 class Blog {
 
