@@ -6,7 +6,7 @@ use Src\Model\PostsManager;
 use Src\Model\CommentsManager;
 use Src\Model\Comment;
 
-class Blog {
+class BlogController {
 
   private $postsManagerInst;
   private $commentsManagerInst;

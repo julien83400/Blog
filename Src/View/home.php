@@ -6,7 +6,7 @@
     <h2><?= $post->getTitle(); ?></h2>
     <p><strong>Publié <?= $post->getDate(); ?></strong></p>
     <p><?= $post->getContent(); ?></p>
-    <a href="index.php?chapitre=<?= $post->getId(); ?>">Voir le chapitre en entier</a>
+    <a href="chapter/<?= $post->getId() ?>">Voir le chapitre en entier</a>
   <?php
   }
   ?>

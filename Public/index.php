@@ -9,20 +9,8 @@ spl_autoload_register(function($class) {
   require $class;
 });
 
-// Initialisation du Controller
-$controller = new Src\Controller\Blog();
+new App\Router($_GET['url']);
 
-// Router
-if (isset($_GET['chapitre'])) {
-  $controller->chapter($_GET['chapitre']);
-}
-
-else {
-  $controller->home();
-}
-
-// URL rewriting htaccess.
-// Class dispatch dans dossier app
 // index.php/[nom controller a appeler]/[nom de la methode]
 // index.php
 // index.php?chapitre=1
