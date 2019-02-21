@@ -4,15 +4,15 @@ namespace App;
 
 use \PDO;
 
-class DbConfig {
+abstract class DbConfig {
 
-  private static $dbname = 'blog';
-  private static $dbuser = 'root';
-  private static $dbpass = 'root';
-  private static $dbhost = 'localhost';
+  const DB_NAME = 'blog';
+  const DB_HOST = 'localhost';
+  const DB_USER = 'root';
+  const DB_PASS = 'root';
 
   public static function getPDO() {
-    $pdo = new PDO('mysql:dbname=' . self::$dbname . ';host=' . self::$dbhost, self::$dbuser, self::$dbpass);
+    $pdo = new PDO('mysql:dbname=' . self::DB_NAME . ';host=' . self::DB_HOST, self::DB_USER, self::DB_PASS);
     return $pdo;
   }
 
