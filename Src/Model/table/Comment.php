@@ -7,16 +7,13 @@ class Comment extends Table {
   // ATTRIBUTES
 
   private $post_id;
-  private $name;
   private $comment;
   private $report;
-  private $hydrate;
 
   // FUNCTIONS
 
   public function __construct($hydrate = false, $commentAtr = null) {
-    $this->setHydrate($hydrate);
-    if ($this->hydrate === true) {
+    if ($hydrate === true) {
       $this->hydrate($commentAtr);
     }
     else {
@@ -30,16 +27,8 @@ class Comment extends Table {
     $this->post_id = $postId;
   }
 
-  protected function setName($name) {
-    $this->name = $name;
-  }
-
   protected function setComment($comment) {
     $this->comment = $comment;
-  }
-
-  private function setHydrate($hydrate) {
-    $this->hydrate = $hydrate;
   }
 
   // GETTERS

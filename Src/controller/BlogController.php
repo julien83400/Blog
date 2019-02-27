@@ -22,35 +22,35 @@ class BlogController extends Controller {
   // FUNCTIONS
 
   public function __construct() {
-    $this->setPostsManager(new PostsManager());
-    $this->setCommentsManager(new CommentsManager());
+    $this->postsManager = new PostsManager();
+    $this->commentsManager = new CommentsManager();
   }
 
   public function home() {
-    $this->setPosts($this->postsManager->allPosts());
+    $this->posts = $this->postsManager->allPosts();
     $this->view(__FUNCTION__);
   }
 
   public function chapter($chapterId) {
-    $this->setChapterId($chapterId);
+    $this->chapterId = $chapterId;
     $this->commentAddCheck();
     $this->commentReportCheck();
-    $this->setPost($this->postsManager->singlePost($this->chapterId));
-    $this->setComments($this->commentsManager->comments($this->chapterId));
+    $this->post = $this->postsManager->singlePost($this->chapterId);
+    $this->comments = $this->commentsManager->comments($this->chapterId);
     $this->view(__FUNCTION__);
   }
 
   private function commentAddCheck() {
     if (!empty($_POST['name']) && !empty($_POST['comment'])) {
-      $this->setComment(new Comment(true, array(
+      $this->comment = new Comment(true, array(
         'postId' => $this->chapterId,
         'name' => $_POST['name'],
         'comment' => $_POST['comment']
-      )));
+      ));
       $this->commentsManager->addComment($this->comment);
     }
     else if (isset($_POST['name']) && isset($_POST['comment'])) {
-      $this->setAddCommentError(true);
+      $this->addCommentError = true;
     }
   }
 
@@ -58,40 +58,6 @@ class BlogController extends Controller {
     if (!empty($_POST['report_id'])) {
       $this->commentsManager->commentReport($_POST['report_id']);
     }
-  }
-
-  // SETTERS
-
-  private function setPostsManager($postsManager) {
-    $this->postsManager = $postsManager;
-  }
-
-  private function setCommentsManager($commentsManager) {
-    $this->commentsManager = $commentsManager;
-  }
-
-  private function setPosts($posts) {
-    $this->posts = $posts;
-  }
-
-  private function setChapterId($chapterId) {
-    $this->chapterId = $chapterId;
-  }
-
-  private function setPost($post) {
-    $this->post = $post;
-  }
-
-  private function setComments($comments) {
-    $this->comments = $comments;
-  }
-
-  private function setComment($comment) {
-    $this->comment = $comment;
-  }
-
-  private function setAddCommentError($addCommentError) {
-    $this->addCommentError = $addCommentError;
   }
 
 }

@@ -1,12 +1,12 @@
 <div>
-  <h1>Admin Inscription</h1>
+  <h1>User Inscription</h1>
   <?php
-  if ($this->registerError === true) {
+  if ($this->registerError) {
   ?>
   <p>Veuillez remplir tous les champs pour vous inscrire</p>
   <?php
   }
-  else if ($this->passwordError === true) {
+  else if ($this->passwordError) {
   ?>
   <p>Les mots de passe ne correspondent pas</p>
   <?php

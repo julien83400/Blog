@@ -3,60 +3,68 @@
 namespace App;
 
 use Src\Controller\BlogController;
-use Src\Controller\AdminController;
 
 class Router {
 
   // ATTRIBUTES
 
-  private $url;
   private $controller;
   private $explodedUrl;
 
   // FUNCTIONS
 
   public function __construct($url) {
-    $this->setUrl($url);
-    $this->routing($this->url);
+    $this->routing($url);
   }
 
   private function routing($url) {
-    if ($url === '') {
-      $this->setController(new BlogController());
-      $this->controller->home();
+    $this->explodedUrl = explode('/', $url);
+    if (count($this->explodedUrl) === 1) {
+      if ($this->explodedUrl[0] === '') {
+        $this->controller = new BlogController();
+        $this->controller->home();
+      }
+      else {
+        $this->urlError();
+      }
     }
-    else if (preg_match('#^blog/chapter/[0-9]+$#', $url)) {
-      $this->setExplodedUrl(explode('/', $url));
-      $this->setController(new BlogController());
-      $this->controller->chapter($this->explodedUrl[2]);
+    else if (count($this->explodedUrl) === 2) {
+      $this->urlChecking();
     }
-    else if ($url === 'admin/user/register') {
-      $this->setController(new AdminController());
-      $this->controller->userRegister();
+    else if (count($this->explodedUrl) === 3) {
+      $this->urlChecking(true);
+    }
+  }
+
+  private function urlChecking($methodParameter = false) {
+    if (file_exists('../Src/Controller/' . ucfirst($this->explodedUrl[0]) . 'Controller.php')) {
+      $controllerName = 'Src\Controller\\' . ucfirst($this->explodedUrl[0]) . 'Controller';
+      $this->controller = new $controllerName;
+      if (method_exists($this->controller, $this->explodedUrl[1])) {
+        $method = $this->explodedUrl[1];
+        if ($methodParameter) {
+          if (preg_match('#^[0-9]+$#', $this->explodedUrl[2])) {
+            $this->controller->$method($this->explodedUrl[2]);
+          }
+          else {
+            $this->urlError();
+          }
+        }
+        else {
+          $this->controller->$method();
+        }
+      }
+      else {
+        $this->urlError();
+      }
     }
     else {
-      echo 'Erreur 404';
+      $this->urlError();
     }
   }
 
-  // SETTERS
-
-  private function setUrl($url) {
-    $this->url = $url;
-  }
-
-  private function setController($controller) {
-    $this->controller = $controller;
-  }
-
-  private function setExplodedUrl($explodedUrl) {
-    $this->explodedUrl = $explodedUrl;
+  private function urlError() {
+    echo 'Erreur 404 Not Found';
   }
 
 }
-
-// article/read/3
-// explode
-// $test = array[0] . 'Controller'
-// new $test;
-// $test->array[1]();

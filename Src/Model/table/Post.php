@@ -8,26 +8,18 @@ class Post extends Table {
 
   private $title;
   private $content;
-  private $postPreview;
 
   // FUNCTIONS
 
   public function __construct($postPreview = false) {
-    $this->setPostPreview($postPreview);
     $this->dateFormat();
-    if ($this->postPreview === true) {
+    if ($postPreview === true) {
       $this->postPreview();
     }
   }
 
   private function postPreview() {
     $this->content = substr($this->content, 0, 1000) . '...';
-  }
-
-  // SETTERS
-
-  private function setPostPreview($postPreview) {
-    $this->postPreview = $postPreview;
   }
 
   // GETTERS

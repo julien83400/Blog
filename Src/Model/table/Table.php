@@ -8,6 +8,7 @@ abstract class Table {
 
   protected $id;
   protected $date;
+  protected $name;
 
   // FUNCTIONS
 
@@ -20,6 +21,10 @@ abstract class Table {
       $setter = 'set' . ucfirst($key);
       $this->$setter($value);
     }
+  }
+
+  private function setName($name) {
+    $this->name = $name;
   }
 
   // GETTERS

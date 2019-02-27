@@ -25,10 +25,10 @@
   ?>
   <h2>Ajouter un commentaire</h2>
   <?php
-  if ($this->addCommentError === true) {
+  if ($this->addCommentError) {
   ?>
     <p>Veuillez remplir tous les champs pour ajouter un commentaire</p>
-  <?php   
+  <?php
   }
   ?>
   <form method="post">

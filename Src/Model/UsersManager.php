@@ -4,25 +4,21 @@ namespace Src\Model;
 
 class UsersManager extends Manager {
 
-  // ATTRIBUTES
-
-  private $user;
-
   // FUNCTIONS
 
   public function addUser($user) {
-    $this->setUser($user);
-    $this->setReq($this->pdo->prepare('INSERT INTO users(user, password) VALUES (:name, :password)'));
+    $this->req = $this->pdo->prepare('INSERT INTO users(name, password) VALUES (:name, :password)');
     $this->req->execute(array(
-      'name' => $this->user->getName(),
-      'password' => $this->user->getPassword()
+      'name' => $user->getName(),
+      'password' => $user->getPassword()
     ));
   }
 
-  // SETTERS
-
-  private function setUser($user) {
-    $this->user = $user;
+  public function user($userName) {
+    $this->req = $this->pdo->prepare('SELECT name, password FROM users WHERE name = ?');
+    $this->req->execute(array($userName));
+    $userFetch = $this->req->fetchObject('Src\Model\Table\User');
+    return $userFetch;
   }
 
 }

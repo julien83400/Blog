@@ -6,20 +6,17 @@ class User extends Table {
 
   // ATTRIBUTES
 
-  private $name;
   private $password;
 
   // FUNCTIONS
 
-  public function __construct($userAtr) {
-    $this->hydrate($userAtr);
+  public function __construct($hydrate = false, $userAtr = null) {
+    if ($hydrate === true) {
+      $this->hydrate($userAtr);
+    }
   }
 
   // SETTERS
-
-  protected function setName($name) {
-    $this->name = $name;
-  }
 
   protected function setPassword($password) {
     $this->password = $password;
