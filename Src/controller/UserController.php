@@ -35,7 +35,7 @@ class UserController extends Controller {
           'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
         ));
         $this->usersManager->addUser($this->user);
-        header('Location: http://localhost:8888/Project/user/login');
+        header('Location: login');
         exit();
       }
       else {
@@ -52,12 +52,18 @@ class UserController extends Controller {
     $this->view(__FUNCTION__);
   }
 
+  public function logout() {
+    session_destroy();
+    header('Location: login');
+  }
+
   private function loginCheck() {
     if (!empty($_POST['name']) && !empty($_POST['password'])) {
       $this->user = $this->usersManager->user($_POST['name']);
       if (is_object($this->user)) {
         if (password_verify($_POST['password'], $this->user->getPassword())) {
-          header('Location: http://localhost:8888/Project/admin/dashboard');
+          $_SESSION['name'] = $this->user->getName();
+          header('Location: ../blog/admin');
           exit();
         }
         else {

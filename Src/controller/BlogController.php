@@ -14,10 +14,11 @@ class BlogController extends Controller {
   protected $post;
   protected $comments;
   protected $addCommentError;
+  protected $chapterId;
+  protected $postUpdated;
   private $postsManager;
   private $commentsManager;
   private $comment;
-  private $chapterId;
 
   // FUNCTIONS
 
@@ -27,7 +28,7 @@ class BlogController extends Controller {
   }
 
   public function home() {
-    $this->posts = $this->postsManager->allPosts();
+    $this->getAllPosts();
     $this->view(__FUNCTION__);
   }
 
@@ -35,7 +36,7 @@ class BlogController extends Controller {
     $this->chapterId = $chapterId;
     $this->commentAddCheck();
     $this->commentReportCheck();
-    $this->post = $this->postsManager->singlePost($this->chapterId);
+    $this->getSinglePost();
     $this->comments = $this->commentsManager->comments($this->chapterId);
     $this->view(__FUNCTION__);
   }
@@ -58,6 +59,62 @@ class BlogController extends Controller {
     if (!empty($_POST['report_id'])) {
       $this->commentsManager->commentReport($_POST['report_id']);
     }
+  }
+
+  public function admin() {
+    $this->loginCheck(__FUNCTION__);
+  }
+
+  public function create() {
+    $this->loginCheck(__FUNCTION__);
+  }
+
+  public function update($chapterId = null) {
+    $this->chapterId = $chapterId;
+    $this->loginCheck(__FUNCTION__);
+  }
+
+  public function delete() {
+    $this->loginCheck(__FUNCTION__);
+  }
+
+  private function loginCheck($function) {
+    if (isset($_SESSION['name'])) {
+      if ($function === 'update') {
+        if ($this->chapterId !== null) {
+          if (!empty($_POST['title']) && !empty($_POST['content'])) {
+            $this->postUpdated = $this->postsManager->postUpdate(array(
+              'postId' => $this->chapterId,
+              'title' => $_POST['title'],
+              'content' => $_POST['content']
+            ));
+          }
+          $this->getSinglePost();
+        }
+        else {
+          $this->getAllPosts();
+        }
+      }
+      else if ($function === 'delete') {
+        if (!empty($_POST['delete'])) {
+          $this->chapterId = $_POST['delete'];
+          $this->postsManager->postDelete($this->chapterId);
+        }
+        $this->getAllPosts();
+      }
+      $this->view($function);
+    }
+    else {
+      echo 'Vous devez vous connecter pour accéder à cette page';
+    }
+  }
+
+  private function getAllPosts() {
+    $this->posts = $this->postsManager->allPosts();
+  }
+
+  private function getSinglePost() {
+    $this->post = $this->postsManager->singlePost($this->chapterId);
   }
 
 }

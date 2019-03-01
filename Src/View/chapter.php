@@ -1,5 +1,5 @@
 <div>
-  <a href="http://localhost:8888/Project/">Retour à la page d'accueil</a>
+  <a href="../../">Retour à la page d'accueil</a>
   <h1>Billet simple pour l'Alaska</h1>
   <h2><?= $this->post->getTitle(); ?></h2>
   <p><?= $this->post->getContent(); ?></p>

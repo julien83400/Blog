@@ -22,4 +22,22 @@ class PostsManager extends Manager {
     return $post;
   }
 
+  public function postUpdate($postData) {
+    $this->postId = $postData['postId'];
+    $this->req = $this->pdo->prepare('UPDATE posts SET title = :title, content = :content WHERE id = :id');
+    $result = $this->req->execute(array(
+      'id' => $this->postId,
+      'title' => $postData['title'],
+      'content' => $postData['content']
+    ));
+    return $result;
+  }
+
+  public function postDelete($postId) {
+    $this->postId = $postId;
+    $this->req = $this->pdo->prepare('DELETE FROM posts WHERE id = ?');
+    $result = $this->req->execute(array($this->postId));
+    return $result;
+  }
+
 }
