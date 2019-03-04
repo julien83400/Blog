@@ -36,8 +36,7 @@ class PostsManager extends Manager {
   public function postDelete($postId) {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('DELETE FROM posts WHERE id = ?');
-    $result = $this->req->execute(array($this->postId));
-    return $result;
+    $this->req->execute(array($this->postId));
   }
 
 }

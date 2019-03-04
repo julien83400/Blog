@@ -4,6 +4,8 @@ namespace Src\Controller;
 
 abstract class Controller {
 
+  // ATTRIBUTES
+
   private $content;
 
   // FUNCTIONS

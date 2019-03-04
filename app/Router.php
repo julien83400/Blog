@@ -67,4 +67,8 @@ class Router {
     echo 'Erreur 404 Not Found';
   }
 
+  public static function sessionError() {
+    echo 'Vous devez être connecté pour accéder à cette page';
+  }
+
 }

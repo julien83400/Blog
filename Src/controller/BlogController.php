@@ -5,6 +5,7 @@ namespace Src\Controller;
 use Src\Model\PostsManager;
 use Src\Model\CommentsManager;
 use Src\Model\Table\Comment;
+use App\Router;
 
 class BlogController extends Controller {
 
@@ -13,6 +14,7 @@ class BlogController extends Controller {
   protected $posts;
   protected $post;
   protected $comments;
+  protected $reportedComments;
   protected $addCommentError;
   protected $chapterId;
   protected $postUpdated;
@@ -78,9 +80,13 @@ class BlogController extends Controller {
     $this->loginCheck(__FUNCTION__);
   }
 
-  private function loginCheck($function) {
+  public function comments() {
+    $this->loginCheck(__FUNCTION__);
+  }
+
+  private function loginCheck($method) {
     if (isset($_SESSION['name'])) {
-      if ($function === 'update') {
+      if ($method === 'update') {
         if ($this->chapterId !== null) {
           if (!empty($_POST['title']) && !empty($_POST['content'])) {
             $this->postUpdated = $this->postsManager->postUpdate(array(
@@ -95,17 +101,24 @@ class BlogController extends Controller {
           $this->getAllPosts();
         }
       }
-      else if ($function === 'delete') {
+      else if ($method === 'delete') {
         if (!empty($_POST['delete'])) {
           $this->chapterId = $_POST['delete'];
           $this->postsManager->postDelete($this->chapterId);
+          $this->commentsManager->commentsDelete($this->chapterId);
         }
         $this->getAllPosts();
       }
-      $this->view($function);
+      else if ($method === 'comments') {
+        if (!empty($_POST['delete'])) {
+          $this->commentsManager->commentDelete($_POST['delete']);
+        }
+        $this->reportedComments = $this->commentsManager->reportedComments();
+      }
+      $this->view($method);
     }
     else {
-      echo 'Vous devez vous connecter pour accéder à cette page';
+      Router::sessionError();
     }
   }
 

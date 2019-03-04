@@ -23,6 +23,8 @@ abstract class Table {
     }
   }
 
+  // SETTERS
+
   private function setName($name) {
     $this->name = $name;
   }

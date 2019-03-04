@@ -11,6 +11,7 @@ abstract class Manager {
   protected $pdo;
   protected $req;
   protected $postId;
+  protected $commentId;
 
   // FUNCTIONS
 

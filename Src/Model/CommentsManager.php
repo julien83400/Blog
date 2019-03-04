@@ -26,8 +26,27 @@ class CommentsManager extends Manager {
   }
 
   public function commentReport($commentId) {
+    $this->commentId = $commentId;
     $this->req = $this->pdo->prepare('UPDATE comments SET report = 1 WHERE id = ?');
-    $this->req->execute(array($commentId));
+    $this->req->execute(array($this->commentId));
+  }
+
+  public function reportedComments() {
+    $this->req = $this->pdo->query('SELECT * FROM comments WHERE report = 1 ORDER BY date DESC');
+    $reportedComments = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Table\Comment');
+    return $reportedComments;
+  }
+
+  public function commentDelete($commentId) {
+    $this->commentId = $commentId;
+    $this->req = $this->pdo->prepare('DELETE FROM comments WHERE id = ?');
+    $this->req->execute(array($this->commentId));
+  }
+
+  public function commentsDelete($postId) {
+    $this->postId = $postId;
+    $this->req = $this->pdo->prepare('DELETE FROM comments WHERE post_id = ?');
+    $this->req->execute(array($this->postId));
   }
 
 }
