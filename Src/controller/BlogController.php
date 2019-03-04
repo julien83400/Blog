@@ -18,6 +18,8 @@ class BlogController extends Controller {
   protected $addCommentError;
   protected $chapterId;
   protected $postUpdated;
+  protected $postCreateError;
+  protected $postCreated;
   private $postsManager;
   private $commentsManager;
   private $comment;
@@ -64,58 +66,79 @@ class BlogController extends Controller {
   }
 
   public function admin() {
-    $this->loginCheck(__FUNCTION__);
+    if (isset($_SESSION['name'])) {
+      $this->view(__FUNCTION__);
+    }
+    else {
+      Router::sessionError();
+    }
   }
 
   public function create() {
-    $this->loginCheck(__FUNCTION__);
+    if (isset($_SESSION['name'])) {
+      if (!empty($_POST['title']) && !empty($_POST['content'])) {
+        $this->postCreated = $this->postsManager->postCreate(array(
+          'title' => strip_tags($_POST['title']),
+          'content' => strip_tags($_POST['content'])
+        ));
+      }
+      else {
+        if (isset($_POST['title']) && isset($_POST['content'])) {
+          $this->postCreateError = true;
+        }
+      }
+      $this->view(__FUNCTION__);
+    }
+    else {
+      Router::sessionError();
+    }
   }
 
   public function update($chapterId = null) {
-    $this->chapterId = $chapterId;
-    $this->loginCheck(__FUNCTION__);
+    if (isset($_SESSION['name'])) {
+      $this->chapterId = $chapterId;
+      if ($this->chapterId !== null) {
+        if (!empty($_POST['title']) && !empty($_POST['content'])) {
+          $this->postUpdated = $this->postsManager->postUpdate(array(
+            'postId' => $this->chapterId,
+            'title' => $_POST['title'],
+            'content' => $_POST['content']
+          ));
+        }
+        $this->getSinglePost();
+      }
+      else {
+        $this->getAllPosts();
+      }
+      $this->view(__FUNCTION__);
+    }
+    else {
+      Router::sessionError();
+    }
   }
 
   public function delete() {
-    $this->loginCheck(__FUNCTION__);
+    if (isset($_SESSION['name'])) {
+      if (!empty($_POST['delete'])) {
+        $this->chapterId = $_POST['delete'];
+        $this->postsManager->postDelete($this->chapterId);
+        $this->commentsManager->commentsDelete($this->chapterId);
+      }
+      $this->getAllPosts();
+      $this->view(__FUNCTION__);
+    }
+    else {
+      Router::sessionError();
+    }
   }
 
   public function comments() {
-    $this->loginCheck(__FUNCTION__);
-  }
-
-  private function loginCheck($method) {
     if (isset($_SESSION['name'])) {
-      if ($method === 'update') {
-        if ($this->chapterId !== null) {
-          if (!empty($_POST['title']) && !empty($_POST['content'])) {
-            $this->postUpdated = $this->postsManager->postUpdate(array(
-              'postId' => $this->chapterId,
-              'title' => $_POST['title'],
-              'content' => $_POST['content']
-            ));
-          }
-          $this->getSinglePost();
-        }
-        else {
-          $this->getAllPosts();
-        }
+      if (!empty($_POST['delete'])) {
+        $this->commentsManager->commentDelete($_POST['delete']);
       }
-      else if ($method === 'delete') {
-        if (!empty($_POST['delete'])) {
-          $this->chapterId = $_POST['delete'];
-          $this->postsManager->postDelete($this->chapterId);
-          $this->commentsManager->commentsDelete($this->chapterId);
-        }
-        $this->getAllPosts();
-      }
-      else if ($method === 'comments') {
-        if (!empty($_POST['delete'])) {
-          $this->commentsManager->commentDelete($_POST['delete']);
-        }
-        $this->reportedComments = $this->commentsManager->reportedComments();
-      }
-      $this->view($method);
+      $this->reportedComments = $this->commentsManager->reportedComments();
+      $this->view(__FUNCTION__);
     }
     else {
       Router::sessionError();

@@ -39,4 +39,13 @@ class PostsManager extends Manager {
     $this->req->execute(array($this->postId));
   }
 
+  public function postCreate($postData) {
+    $this->req = $this->pdo->prepare('INSERT INTO posts(title, content) VALUES (:title, :content)');
+    $result = $this->req->execute(array(
+      'title' => $postData['title'],
+      'content' => $postData['content']
+    ));
+    return $result;
+  }
+
 }

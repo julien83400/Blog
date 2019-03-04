@@ -1,3 +1,4 @@
+<a href="register">Pas encore inscrit ? Inscrivez-vous ici</a>
 <div>
   <h1>User Login</h1>
   <?php

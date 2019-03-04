@@ -1,3 +1,4 @@
+<a href="../">Retour au blog</a>
 <div>
   <h1>Blog Admin</h1>
   <div>
