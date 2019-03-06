@@ -7,13 +7,13 @@ abstract class Table {
   // ATTRIBUTES
 
   protected $id;
-  protected $date;
+  protected $date_creation;
   protected $name;
 
   // FUNCTIONS
 
   protected function dateFormat() {
-    $this->date = strftime('le %d/%m/%Y à %Hh%Mmin%Ss', strtotime($this->date));
+    $this->date_creation = strftime('le %d/%m/%Y à %Hh%Mmin%Ss', strtotime($this->date_creation));
   }
 
   protected function hydrate($attributes) {
@@ -36,7 +36,7 @@ abstract class Table {
   }
 
   public function getDate() {
-    return $this->date;
+    return $this->date_creation;
   }
 
 }

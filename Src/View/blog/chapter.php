@@ -2,7 +2,7 @@
   <a href="../../">Retour à la page d'accueil</a>
   <h1>Billet simple pour l'Alaska</h1>
   <h2><?= $this->post->getTitle(); ?></h2>
-  <p><?= $this->post->getContent(); ?></p>
+  <?= $this->post->getContent(); ?>
   <h2>Commentaires</h2>
   <?php
   foreach($this->comments as $comment) {

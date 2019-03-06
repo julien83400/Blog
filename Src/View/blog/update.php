@@ -5,10 +5,10 @@ if ($this->chapterId !== null) {
     <a href="../update">Retour à la liste des chapitres</a>
     <h1>Édition du chapitre</h1>
     <form method="post">
-      <label for="title">Titre du chapitre : </label>
+      <label for="title">Titre du chapitre : </label><br>
       <input type="text" name="title" id="title" value="<?= $this->post->getTitle(); ?>"><br>
-      <label for="content">Contenu : </label><br>
-      <textarea name="content" id="content" rows="20" cols="80"><?= $this->post->getContent(); ?></textarea><br>
+      <label for="content">Contenu du chapitre : </label>
+      <textarea class="chapter" name="content" id="content"><?= $this->post->getContent(); ?></textarea>
       <button type="submit">Mettre à jour</button>
     </form>
     <?php

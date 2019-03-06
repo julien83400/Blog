@@ -1,6 +1,8 @@
 <?php
 
-namespace Src\Model\Table;
+namespace Src\Model\Table\Blog;
+
+use Src\Model\Table\Table;
 
 class Comment extends Table {
 

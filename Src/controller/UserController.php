@@ -2,10 +2,11 @@
 
 namespace Src\Controller;
 
-use Src\Model\UsersManager;
-use Src\Model\Table\User;
+use Src\Model\User\UsersManager;
+use Src\Model\Table\User\User;
+use App\View;
 
-class UserController extends Controller {
+class UserController extends View {
 
   // ATTRIBUTES
 
@@ -13,6 +14,7 @@ class UserController extends Controller {
   private $user;
   protected $passwordError;
   protected $registerError;
+  protected $userNameError;
   protected $loginError;
   protected $nameError;
 
@@ -24,19 +26,25 @@ class UserController extends Controller {
 
   public function register() {
     $this->registerCheck();
-    $this->view(__FUNCTION__);
+    $this->render(__CLASS__, __FUNCTION__);
   }
 
   private function registerCheck() {
     if (!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password-confirm'])) {
       if ($_POST['password'] === $_POST['password-confirm']) {
-        $this->user = new User(true, array(
-          'name' => $_POST['name'],
-          'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-        ));
-        $this->usersManager->addUser($this->user);
-        header('Location: login');
-        exit();
+        $entry = $this->usersManager->userNameCount($_POST['name']);
+        if ($entry['nb_username'] == 0) {
+          $this->user = new User(true, array(
+            'name' => $_POST['name'],
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+          ));
+          $this->usersManager->addUser($this->user);
+          header('Location: login');
+          exit();
+        }
+        else {
+          $this->userNameError = true;
+        }
       }
       else {
         $this->passwordError = true;
@@ -49,7 +57,7 @@ class UserController extends Controller {
 
   public function login() {
     $this->loginCheck();
-    $this->view(__FUNCTION__);
+    $this->render(__CLASS__, __FUNCTION__);
   }
 
   public function logout() {

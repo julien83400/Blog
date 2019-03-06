@@ -25,29 +25,26 @@ class Router {
         $this->controller->home();
       }
       else {
-        $this->urlError();
+        self::urlNotFound();
       }
     }
-    else if (count($this->explodedUrl) === 2) {
+    else {
       $this->urlChecking();
-    }
-    else if (count($this->explodedUrl) === 3) {
-      $this->urlChecking(true);
     }
   }
 
-  private function urlChecking($methodParameter = false) {
-    if (file_exists('../Src/Controller/' . ucfirst($this->explodedUrl[0]) . 'Controller.php')) {
-      $controllerName = 'Src\Controller\\' . ucfirst($this->explodedUrl[0]) . 'Controller';
+  private function urlChecking() {
+    if (file_exists('../src/controller/' . ucfirst($this->explodedUrl[0]) . 'Controller.php')) {
+      $controllerName = 'src\controller\\' . ucfirst($this->explodedUrl[0]) . 'Controller';
       $this->controller = new $controllerName;
-      if (method_exists($this->controller, $this->explodedUrl[1])) {
-        $method = $this->explodedUrl[1];
-        if ($methodParameter) {
+      $method = $this->explodedUrl[1];
+      if (method_exists($this->controller, $method)) {
+        if (count($this->explodedUrl) === 3) {
           if (preg_match('#^[0-9]+$#', $this->explodedUrl[2])) {
             $this->controller->$method($this->explodedUrl[2]);
           }
           else {
-            $this->urlError();
+            self::urlNotFound();
           }
         }
         else {
@@ -55,15 +52,15 @@ class Router {
         }
       }
       else {
-        $this->urlError();
+        self::urlNotFound();
       }
     }
     else {
-      $this->urlError();
+      self::urlNotFound();
     }
   }
 
-  private function urlError() {
+  public static function urlNotFound() {
     echo 'Erreur 404 Not Found';
   }
 

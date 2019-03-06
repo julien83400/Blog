@@ -1,16 +1,17 @@
 <?php
 
-namespace Src\Model;
+namespace Src\Model\Blog;
 
 use \PDO;
+use Src\Model\Manager;
 
 class PostsManager extends Manager {
 
   // FUNCTIONS
 
   public function allPosts() {
-    $this->req = $this->pdo->query('SELECT * FROM posts ORDER BY date DESC');
-    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Table\Post', array(true));
+    $this->req = $this->pdo->query('SELECT * FROM posts ORDER BY date_creation DESC');
+    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Table\Blog\Post', array(true));
     return $posts;
   }
 
@@ -18,7 +19,7 @@ class PostsManager extends Manager {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('SELECT * FROM posts WHERE id = ?');
     $this->req->execute(array($this->postId));
-    $post = $this->req->fetchObject('Src\Model\Table\Post');
+    $post = $this->req->fetchObject('Src\Model\Table\Blog\Post');
     return $post;
   }
 
@@ -36,7 +37,8 @@ class PostsManager extends Manager {
   public function postDelete($postId) {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('DELETE FROM posts WHERE id = ?');
-    $this->req->execute(array($this->postId));
+    $result = $this->req->execute(array($this->postId));
+    return $result;
   }
 
   public function postCreate($postData) {
@@ -45,6 +47,14 @@ class PostsManager extends Manager {
       'title' => $postData['title'],
       'content' => $postData['content']
     ));
+    return $result;
+  }
+
+  public function chapterIdCheck($chapterId) {
+    $this->postId = $chapterId;
+    $this->req = $this->pdo->prepare('SELECT COUNT(*) AS nb_id FROM posts WHERE id = ?');
+    $this->req->execute(array($this->postId));
+    $result = $this->req->fetch();
     return $result;
   }
 

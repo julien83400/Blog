@@ -1,6 +1,8 @@
 <?php
 
-namespace Src\Model\Table;
+namespace Src\Model\Table\Blog;
+
+use Src\Model\Table\Table;
 
 class Post extends Table {
 
@@ -19,6 +21,7 @@ class Post extends Table {
   }
 
   private function postPreview() {
+    $this->content = strip_tags($this->content);
     $this->content = substr($this->content, 0, 1000) . '...';
   }
 

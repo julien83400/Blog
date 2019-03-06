@@ -12,6 +12,11 @@
   <p>Les mots de passe ne correspondent pas</p>
   <?php
   }
+  else if ($this->userNameError) {
+  ?>
+  <p>Ce nom est déjà pris !</p>
+  <?php
+  }
   ?>
   <form method="post">
     <label for="name">Nom : </label>

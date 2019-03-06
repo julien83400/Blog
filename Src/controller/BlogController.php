@@ -2,12 +2,13 @@
 
 namespace Src\Controller;
 
-use Src\Model\PostsManager;
-use Src\Model\CommentsManager;
-use Src\Model\Table\Comment;
+use Src\Model\Blog\PostsManager;
+use Src\Model\Blog\CommentsManager;
+use Src\Model\Table\Blog\Comment;
 use App\Router;
+use App\View;
 
-class BlogController extends Controller {
+class BlogController extends View {
 
   // ATTRIBUTES
 
@@ -20,9 +21,11 @@ class BlogController extends Controller {
   protected $postUpdated;
   protected $postCreateError;
   protected $postCreated;
+  protected $postDeleted;
   private $postsManager;
   private $commentsManager;
   private $comment;
+  private $entry;
 
   // FUNCTIONS
 
@@ -33,16 +36,22 @@ class BlogController extends Controller {
 
   public function home() {
     $this->getAllPosts();
-    $this->view(__FUNCTION__);
+    $this->render(__CLASS__, __FUNCTION__);
   }
 
   public function chapter($chapterId) {
     $this->chapterId = $chapterId;
-    $this->commentAddCheck();
-    $this->commentReportCheck();
-    $this->getSinglePost();
-    $this->comments = $this->commentsManager->comments($this->chapterId);
-    $this->view(__FUNCTION__);
+    $this->entry = $this->postsManager->chapterIdCheck($this->chapterId);
+    if ($this->entry['nb_id'] > 0) {
+      $this->commentAddCheck();
+      $this->commentReportCheck();
+      $this->getSinglePost();
+      $this->comments = $this->commentsManager->comments($this->chapterId);
+      $this->render(__CLASS__, __FUNCTION__);
+    }
+    else {
+      Router::urlNotFound();
+    }
   }
 
   private function commentAddCheck() {
@@ -67,7 +76,7 @@ class BlogController extends Controller {
 
   public function admin() {
     if (isset($_SESSION['name'])) {
-      $this->view(__FUNCTION__);
+      $this->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -78,8 +87,8 @@ class BlogController extends Controller {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['title']) && !empty($_POST['content'])) {
         $this->postCreated = $this->postsManager->postCreate(array(
-          'title' => strip_tags($_POST['title']),
-          'content' => strip_tags($_POST['content'])
+          'title' => $_POST['title'],
+          'content' => $_POST['content']
         ));
       }
       else {
@@ -87,7 +96,7 @@ class BlogController extends Controller {
           $this->postCreateError = true;
         }
       }
-      $this->view(__FUNCTION__);
+      $this->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -98,19 +107,26 @@ class BlogController extends Controller {
     if (isset($_SESSION['name'])) {
       $this->chapterId = $chapterId;
       if ($this->chapterId !== null) {
-        if (!empty($_POST['title']) && !empty($_POST['content'])) {
-          $this->postUpdated = $this->postsManager->postUpdate(array(
-            'postId' => $this->chapterId,
-            'title' => $_POST['title'],
-            'content' => $_POST['content']
-          ));
+        $this->entry = $this->postsManager->chapterIdCheck($this->chapterId);
+        if ($this->entry['nb_id'] > 0) {
+          if (!empty($_POST['title']) && !empty($_POST['content'])) {
+            $this->postUpdated = $this->postsManager->postUpdate(array(
+              'postId' => $this->chapterId,
+              'title' => $_POST['title'],
+              'content' => $_POST['content']
+            ));
+          }
+          $this->getSinglePost();
+          $this->render(__CLASS__, __FUNCTION__);
         }
-        $this->getSinglePost();
+        else {
+          Router::urlNotFound();
+        }
       }
       else {
         $this->getAllPosts();
+        $this->render(__CLASS__, __FUNCTION__);
       }
-      $this->view(__FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -121,11 +137,11 @@ class BlogController extends Controller {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['delete'])) {
         $this->chapterId = $_POST['delete'];
-        $this->postsManager->postDelete($this->chapterId);
+        $this->postDeleted = $this->postsManager->postDelete($this->chapterId);
         $this->commentsManager->commentsDelete($this->chapterId);
       }
       $this->getAllPosts();
-      $this->view(__FUNCTION__);
+      $this->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -138,7 +154,7 @@ class BlogController extends Controller {
         $this->commentsManager->commentDelete($_POST['delete']);
       }
       $this->reportedComments = $this->commentsManager->reportedComments();
-      $this->view(__FUNCTION__);
+      $this->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();

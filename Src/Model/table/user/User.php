@@ -1,6 +1,8 @@
 <?php
 
-namespace Src\Model\Table;
+namespace Src\Model\Table\User;
+
+use Src\Model\Table\Table;
 
 class User extends Table {
 

@@ -11,5 +11,10 @@
     </form>
   <?php
   }
+  if ($this->postDeleted) {
+  ?>
+  <p>Le chapitre a bien été supprimé</p>
+  <?php
+  }
   ?>
 </div>
