@@ -11,7 +11,7 @@ class PostsManager extends Manager {
 
   public function allPosts() {
     $this->req = $this->pdo->query('SELECT * FROM posts ORDER BY date_creation DESC');
-    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Table\Blog\Post', array(true));
+    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Blog\Post', array(true));
     return $posts;
   }
 
@@ -19,7 +19,7 @@ class PostsManager extends Manager {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('SELECT * FROM posts WHERE id = ?');
     $this->req->execute(array($this->postId));
-    $post = $this->req->fetchObject('Src\Model\Table\Blog\Post');
+    $post = $this->req->fetchObject('Src\Model\Blog\Post');
     return $post;
   }
 
@@ -41,11 +41,11 @@ class PostsManager extends Manager {
     return $result;
   }
 
-  public function postCreate($postData) {
+  public function postCreate($post) {
     $this->req = $this->pdo->prepare('INSERT INTO posts(title, content) VALUES (:title, :content)');
     $result = $this->req->execute(array(
-      'title' => $postData['title'],
-      'content' => $postData['content']
+      'title' => $post->getTitle(),
+      'content' => $post->getContent()
     ));
     return $result;
   }

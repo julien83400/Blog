@@ -1,16 +1,17 @@
 <?php
 
-namespace Src\Model\Table\Blog;
+namespace Src\Model\Blog;
 
-use Src\Model\Table\Table;
+use Src\Model\Table\Model;
 
-class Comment extends Table {
+class Comment extends Model {
 
   // ATTRIBUTES
 
   private $post_id;
   private $comment;
   private $report;
+  private $name;
 
   // FUNCTIONS
 
@@ -31,6 +32,10 @@ class Comment extends Table {
 
   protected function setComment($comment) {
     $this->comment = $comment;
+  }
+
+  protected function setName($name) {
+    $this->name = $name;
   }
 
   // GETTERS

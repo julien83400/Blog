@@ -3,7 +3,7 @@
 namespace Src\Controller;
 
 use Src\Model\User\UsersManager;
-use Src\Model\Table\User\User;
+use Src\Model\User\User;
 use App\View;
 
 class UserController extends View {

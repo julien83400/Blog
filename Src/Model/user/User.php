@@ -1,14 +1,15 @@
 <?php
 
-namespace Src\Model\Table\User;
+namespace Src\Model\User;
 
-use Src\Model\Table\Table;
+use Src\Model\Table\Model;
 
-class User extends Table {
+class User extends Model {
 
   // ATTRIBUTES
 
   private $password;
+  private $name;
 
   // FUNCTIONS
 
@@ -22,6 +23,10 @@ class User extends Table {
 
   protected function setPassword($password) {
     $this->password = $password;
+  }
+
+  protected function setName($name) {
+    $this->name = $name;
   }
 
   // GETTERS

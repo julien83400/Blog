@@ -4,7 +4,8 @@ namespace Src\Controller;
 
 use Src\Model\Blog\PostsManager;
 use Src\Model\Blog\CommentsManager;
-use Src\Model\Table\Blog\Comment;
+use Src\Model\Blog\Comment;
+use Src\Model\Blog\Post;
 use App\Router;
 use App\View;
 
@@ -86,10 +87,12 @@ class BlogController extends View {
   public function create() {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['title']) && !empty($_POST['content'])) {
-        $this->postCreated = $this->postsManager->postCreate(array(
+        $this->post = new Post(false, true, array(
           'title' => $_POST['title'],
           'content' => $_POST['content']
         ));
+        // $this->post->getManager()->save()
+        $this->postCreated = $this->postsManager->postCreate($this->post);
       }
       else {
         if (isset($_POST['title']) && isset($_POST['content'])) {
@@ -162,6 +165,8 @@ class BlogController extends View {
   }
 
   private function getAllPosts() {
+    // $posts = $this->postsManager->allPosts();
+    // $view->assign('posts', $posts)
     $this->posts = $this->postsManager->allPosts();
   }
 

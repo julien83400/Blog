@@ -2,13 +2,12 @@
 
 namespace Src\Model\Table;
 
-abstract class Table {
+abstract class Model {
 
   // ATTRIBUTES
 
   protected $id;
   protected $date_creation;
-  protected $name;
 
   // FUNCTIONS
 
@@ -21,12 +20,6 @@ abstract class Table {
       $setter = 'set' . ucfirst($key);
       $this->$setter($value);
     }
-  }
-
-  // SETTERS
-
-  private function setName($name) {
-    $this->name = $name;
   }
 
   // GETTERS

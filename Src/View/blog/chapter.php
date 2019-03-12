@@ -1,40 +1,54 @@
 <div>
   <a href="../../">Retour à la page d'accueil</a>
-  <h1>Billet simple pour l'Alaska</h1>
-  <h2><?= $this->post->getTitle(); ?></h2>
-  <?= $this->post->getContent(); ?>
-  <h2>Commentaires</h2>
-  <?php
-  foreach($this->comments as $comment) {
-  ?>
-    <p><?= $comment->getDate(); ?> <strong><?= $comment->getName(); ?></strong> a commenté :<p>
-    <p>"<?= $comment->getComment(); ?>"</p>
+  <section class="section-wrapper">
+    <h1 id="chapter-heading"><?= $this->post->getTitle(); ?></h1>
+    <?= $this->post->getContent(); ?>
+  </section>
+  <section id="chapter-comments-section">
+    <div class="chapter-comments-wrapper">
+    <h2 class="chapter-comments-heading">Commentaires</h2>
     <?php
-    if ($comment->getReport() === '1') {
+    foreach($this->comments as $comment) {
     ?>
-      <p>Ce commentaire a été signalé</p>
-    <?php
-    } else {
-    ?>
-      <form method="post">
-        <button type="submit" name="report_id" value=<?= $comment->getId(); ?>>Signaler</button>
-      </form>
-    <?php
+    <div class="comment-container">
+      <p class="comment-date"><?= $comment->getDate(); ?> <strong><?= $comment->getName(); ?></strong> a commenté :<p>
+      <div class="comment-display">
+        <p><strong>"<?= $comment->getComment(); ?>"</strong></p>
+        <?php
+        if ($comment->getReport() === '1') {
+        ?>
+        <p>Ce commentaire a été signalé</p>
+      </div>
+    </div>
+      <?php
+      } else {
+      ?>
+        <form method="post">
+          <button type="submit" name="report_id" value=<?= $comment->getId(); ?>>Signaler</button>
+        </form>
+      </div>
+    </div>
+      <?php
+      }
     }
-  }
-  ?>
-  <h2>Ajouter un commentaire</h2>
-  <?php
-  if ($this->addCommentError) {
-  ?>
-    <p>Veuillez remplir tous les champs pour ajouter un commentaire</p>
-  <?php
-  }
-  ?>
-  <form method="post">
-    <label for="name">Votre nom : </label><input type="text" name="name" id="name"><br>
-    <label for="comment">Votre commentaire : </label><br>
-    <textarea name="comment" id="comment" rows="8" cols="80"></textarea><br>
-    <button type="submit">Publier</button>
-  </form>
+    ?>
+    </div>
+  </section>
+  <section id="add-comment-section">
+    <div class="chapter-comments-wrapper">
+      <h2 class="chapter-comments-heading">Ajouter un commentaire</h2>
+      <?php
+      if ($this->addCommentError) {
+      ?>
+        <p>Veuillez remplir tous les champs pour ajouter un commentaire</p>
+      <?php
+      }
+      ?>
+      <form method="post">
+        <input class="comment-form" type="text" name="name" placeholder="Votre nom"><br>
+        <textarea class="comment-form" name="comment" placeholder="Votre commentaire"></textarea><br>
+        <button id="form-button" type="submit">Publier</button>
+      </form>
+    </div>
+  </section>
 </div>

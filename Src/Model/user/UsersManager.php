@@ -9,6 +9,9 @@ class UsersManager extends Manager {
   // FUNCTIONS
 
   public function addUser($user) {
+    //$sql = 'SELECT ';
+    // foreach
+      // $sql .=
     $this->req = $this->pdo->prepare('INSERT INTO users(name, password) VALUES (:name, :password)');
     $this->req->execute(array(
       'name' => $user->getName(),
@@ -20,7 +23,7 @@ class UsersManager extends Manager {
     $this->userName = $userName;
     $this->req = $this->pdo->prepare('SELECT name, password FROM users WHERE name = ?');
     $this->req->execute(array($this->userName));
-    $userFetch = $this->req->fetchObject('Src\Model\Table\User\User');
+    $userFetch = $this->req->fetchObject('Src\Model\User\User');
     return $userFetch;
   }
 

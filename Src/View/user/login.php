@@ -1,5 +1,6 @@
 <a href="register">Pas encore inscrit ? Inscrivez-vous ici</a>
-<div>
+<section id="login-section">
+  <div class="chapter-comments-wrapper">
   <h1>User Login</h1>
   <?php
   if ($this->loginError) {
@@ -25,4 +26,5 @@
     <input type="password" name="password" id="password"><br>
     <button type="submit">Connexion</button>
   </form>
-</div>
+  </div>
+</section>

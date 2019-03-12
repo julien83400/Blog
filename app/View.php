@@ -14,6 +14,7 @@ class View {
   public function render($className, $functionName) {
     $viewName = $this->viewName($className, $functionName);
     ob_start();
+    // extract($this->data);
     require '../src/view/' . $viewName . '.php';
     $this->content = ob_get_clean();
     require '../src/view/template.php';
@@ -30,5 +31,7 @@ class View {
   public function assign($key, $value) {
     $this->data[$key] = $value;
   }
+
+  // fonction include pour ressource statique (img, css)
 
 }

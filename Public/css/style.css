@@ -1,0 +1,132 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+/* HOMEPAGE */
+
+.section-wrapper {
+	width: 800px;
+	margin: 80px auto 80px auto;
+}
+
+.home-chapter-container {
+  margin-bottom: 50px;;
+}
+
+.home-chapter-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.home-chapter-date {
+  font-style: italic;
+}
+
+.home-chapter-content {
+	margin-bottom: 20px;
+}
+
+.home-chapter-link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  background-color: #3c5d80;
+}
+
+/* CHAPTER */
+
+#chapter-heading {
+	margin-bottom: 50px;
+}
+
+#chapter-comments-section {
+	background-color: #3c5d80;
+	padding: 80px 0 80px 0;
+}
+
+.chapter-comments-wrapper {
+	width: 800px;
+	margin: auto;
+}
+
+.chapter-comments-heading {
+	margin-bottom: 60px;
+	color: white;
+}
+
+.comment-container {
+	color: #FFF8BA;
+	margin-bottom: 20px;
+	border-bottom: 1px solid white;
+}
+
+.comment-container strong {
+	color: white;
+}
+
+.comment-container button {
+	padding: 4px;
+	border: 1px solid white;
+	background-color: #3c5d80;
+	color: white;
+}
+
+.comment-date {
+	margin-bottom: 20px;
+}
+
+.comment-display {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+#add-comment-section {
+	background-color: #2e4862;
+	padding: 80px 0 80px 0;
+}
+
+.comment-form {
+	width: 100%;
+	font-size: 15px;
+	padding: 12px;
+	margin-bottom: 20px;
+	background-color: #6b92bc;
+	color: white;
+	box-sizing: border-box;
+}
+
+#add-comment-section textarea {
+	height: 100px;
+}
+
+#form-button {
+	background-color: #FFF8BA;
+	padding: 15px 50px 15px 50px;
+	border: 1px solid white;
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+::placeholder {
+	color: #ececec;
+}
+
+#add-comment-section p {
+	color: #FFF8BA;
+	margin-bottom: 20px;
+}
+
+/* LOGIN */
+
+#login-section {
+	background-color: #2e4862;
+	padding: 80px 0 80px 0;
+}
