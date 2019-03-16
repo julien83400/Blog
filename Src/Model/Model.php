@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Model\Table;
+namespace Src\Model;
 
 abstract class Model {
 

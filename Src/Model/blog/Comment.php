@@ -2,7 +2,7 @@
 
 namespace Src\Model\Blog;
 
-use Src\Model\Table\Model;
+use Src\Model\Model;
 
 class Comment extends Model {
 

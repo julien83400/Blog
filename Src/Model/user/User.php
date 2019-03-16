@@ -2,7 +2,7 @@
 
 namespace Src\Model\User;
 
-use Src\Model\Table\Model;
+use Src\Model\Model;
 
 class User extends Model {
 
