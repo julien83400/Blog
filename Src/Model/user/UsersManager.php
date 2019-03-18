@@ -8,17 +8,6 @@ class UsersManager extends Manager {
 
   // FUNCTIONS
 
-  public function addUser($user) {
-    //$sql = 'SELECT ';
-    // foreach
-      // $sql .=
-    $this->req = $this->pdo->prepare('INSERT INTO users(name, password) VALUES (:name, :password)');
-    $this->req->execute(array(
-      'name' => $user->getName(),
-      'password' => $user->getPassword()
-    ));
-  }
-
   public function user($userName) {
     $this->userName = $userName;
     $this->req = $this->pdo->prepare('SELECT name, password FROM users WHERE name = ?');

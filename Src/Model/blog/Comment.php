@@ -38,9 +38,13 @@ class Comment extends Model {
     $this->name = $name;
   }
 
+  protected function setReport($report) {
+    $this->report = $report;
+  }
+
   // GETTERS
 
-  public function getPostId() {
+  public function getPost_id() {
     return $this->post_id;
   }
 

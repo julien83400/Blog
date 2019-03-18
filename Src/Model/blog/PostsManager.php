@@ -34,22 +34,6 @@ class PostsManager extends Manager {
     return $result;
   }
 
-  public function postDelete($postId) {
-    $this->postId = $postId;
-    $this->req = $this->pdo->prepare('DELETE FROM posts WHERE id = ?');
-    $result = $this->req->execute(array($this->postId));
-    return $result;
-  }
-
-  public function postCreate($post) {
-    $this->req = $this->pdo->prepare('INSERT INTO posts(title, content) VALUES (:title, :content)');
-    $result = $this->req->execute(array(
-      'title' => $post->getTitle(),
-      'content' => $post->getContent()
-    ));
-    return $result;
-  }
-
   public function chapterIdCheck($chapterId) {
     $this->postId = $chapterId;
     $this->req = $this->pdo->prepare('SELECT COUNT(*) AS nb_id FROM posts WHERE id = ?');

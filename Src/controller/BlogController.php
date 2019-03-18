@@ -23,6 +23,7 @@ class BlogController extends View {
   protected $postCreateError;
   protected $postCreated;
   protected $postDeleted;
+  protected $commentCreated;
   private $postsManager;
   private $commentsManager;
   private $comment;
@@ -60,9 +61,10 @@ class BlogController extends View {
       $this->comment = new Comment(true, array(
         'postId' => $this->chapterId,
         'name' => $_POST['name'],
-        'comment' => $_POST['comment']
+        'comment' => $_POST['comment'],
+        'report' => 0
       ));
-      $this->commentsManager->addComment($this->comment);
+      $this->commentCreated = $this->commentsManager->add($this->comment);
     }
     else if (isset($_POST['name']) && isset($_POST['comment'])) {
       $this->addCommentError = true;
@@ -92,7 +94,7 @@ class BlogController extends View {
           'content' => $_POST['content']
         ));
         // $this->post->getManager()->save()
-        $this->postCreated = $this->postsManager->postCreate($this->post);
+        $this->postCreated = $this->postsManager->add($this->post);
       }
       else {
         if (isset($_POST['title']) && isset($_POST['content'])) {
@@ -140,7 +142,8 @@ class BlogController extends View {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['delete'])) {
         $this->chapterId = $_POST['delete'];
-        $this->postDeleted = $this->postsManager->postDelete($this->chapterId);
+        $class = get_class($this->postsManager);
+        $this->postDeleted = $this->postsManager->delete($this->chapterId, $class);
         $this->commentsManager->commentsDelete($this->chapterId);
       }
       $this->getAllPosts();
@@ -154,7 +157,8 @@ class BlogController extends View {
   public function comments() {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['delete'])) {
-        $this->commentsManager->commentDelete($_POST['delete']);
+        $class = get_class($this->commentsManager);
+        $this->commentsManager->delete($_POST['delete'], $class);
       }
       $this->reportedComments = $this->commentsManager->reportedComments();
       $this->render(__CLASS__, __FUNCTION__);

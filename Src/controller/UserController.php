@@ -38,7 +38,7 @@ class UserController extends View {
             'name' => $_POST['name'],
             'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
           ));
-          $this->usersManager->addUser($this->user);
+          $this->usersManager->add($this->user);
           header('Location: login');
           exit();
         }
