@@ -1,5 +1,4 @@
 <?php
-
 // Nouvelle session
 session_start();
 
@@ -9,5 +8,5 @@ spl_autoload_register(function($class) {
   require $class;
 });
 
-// Router
-new App\Router($_GET['url']);
+// Instanciation du Router
+new app\Router($_GET['url']);

@@ -1,30 +1,27 @@
-<a href="login">Déjà inscrit ? Connectez-vous ici</a>
-<div>
+<section class="chapter-comments-wrapper box">
   <h1>User Inscription</h1>
   <?php
-  if ($this->registerError) {
+  if (isset($this->error['register'])) {
   ?>
   <p>Veuillez remplir tous les champs pour vous inscrire</p>
   <?php
   }
-  else if ($this->passwordError) {
+  else if (isset($this->error['password'])) {
   ?>
   <p>Les mots de passe ne correspondent pas</p>
   <?php
   }
-  else if ($this->userNameError) {
+  else if ($this->error['userName']) {
   ?>
   <p>Ce nom est déjà pris !</p>
   <?php
   }
   ?>
   <form method="post">
-    <label for="name">Nom : </label>
-    <input type="text" name="name" id="name"><br>
-    <label for="password">Mot de passe : </label>
-    <input type="password" name="password" id="password"><br>
-    <label for="password-confirm">Confirmez le mot de passe : </label>
-    <input type="password" name="password-confirm" id="password-confirm"><br>
-    <button type="submit">Inscription</button>
+    <input type="text" name="name" placeholder="Nom" class="comment-form"><br>
+    <input type="password" name="password" placeholder="Mot de passe" class="comment-form"><br>
+    <input type="password" name="password-confirm" placeholder="Confirmez le mot de passe" class="comment-form"><br>
+    <button type="submit" class="form-button">Inscription</button>
   </form>
-</div>
+  <a class="user-link" href="login">Déjà inscrit ? Connectez-vous ici</a>
+</section>

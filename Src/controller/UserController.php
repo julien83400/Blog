@@ -1,32 +1,28 @@
 <?php
 
-namespace Src\Controller;
+namespace src\controller;
 
-use Src\Model\User\UsersManager;
-use Src\Model\User\User;
-use App\View;
+use src\model\user\UsersManager;
+use src\model\user\User;
+use app\View;
 
-class UserController extends View {
+class UserController {
 
   // ATTRIBUTES
 
   private $usersManager;
-  private $user;
-  protected $passwordError;
-  protected $registerError;
-  protected $userNameError;
-  protected $loginError;
-  protected $nameError;
+  private $view;
 
   // FUNCTIONS
 
   public function __construct() {
     $this->usersManager = new UsersManager();
+    $this->view = new View();
   }
 
   public function register() {
     $this->registerCheck();
-    $this->render(__CLASS__, __FUNCTION__);
+    $this->view->render(__CLASS__, __FUNCTION__);
   }
 
   private function registerCheck() {
@@ -34,30 +30,30 @@ class UserController extends View {
       if ($_POST['password'] === $_POST['password-confirm']) {
         $entry = $this->usersManager->userNameCount($_POST['name']);
         if ($entry['nb_username'] == 0) {
-          $this->user = new User(true, array(
+          $user = new User(true, array(
             'name' => $_POST['name'],
             'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
           ));
-          $this->usersManager->add($this->user);
+          $this->usersManager->add($user);
           header('Location: login');
           exit();
         }
         else {
-          $this->userNameError = true;
+          $this->view->errorAssign('userName', true);
         }
       }
       else {
-        $this->passwordError = true;
+        $this->view->errorAssign('password', true);
       }
     }
     else if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['password-confirm'])) {
-      $this->registerError = true;
+      $this->view->errorAssign('register', true);
     }
   }
 
   public function login() {
     $this->loginCheck();
-    $this->render(__CLASS__, __FUNCTION__);
+    $this->view->render(__CLASS__, __FUNCTION__);
   }
 
   public function logout() {
@@ -67,23 +63,23 @@ class UserController extends View {
 
   private function loginCheck() {
     if (!empty($_POST['name']) && !empty($_POST['password'])) {
-      $this->user = $this->usersManager->user($_POST['name']);
-      if (is_object($this->user)) {
-        if (password_verify($_POST['password'], $this->user->getPassword())) {
-          $_SESSION['name'] = $this->user->getName();
+      $user = $this->usersManager->user($_POST['name']);
+      if (is_object($user)) {
+        if (password_verify($_POST['password'], $user->getPassword())) {
+          $_SESSION['name'] = $user->getName();
           header('Location: ../blog/admin');
           exit();
         }
         else {
-          $this->passwordError = true;
+          $this->view->errorAssign('password', true);
         }
       }
-      else if ($this->user === false) {
-        $this->nameError = true;
+      else if ($user === false) {
+        $this->view->errorAssign('name', true);
       }
     }
     else if (isset($_POST['name']) && isset($_POST['password'])) {
-      $this->loginError = true;
+      $this->view->errorAssign('login', true);
     }
   }
 

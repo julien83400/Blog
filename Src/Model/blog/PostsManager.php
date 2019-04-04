@@ -1,9 +1,9 @@
 <?php
 
-namespace Src\Model\Blog;
+namespace src\model\blog;
 
 use \PDO;
-use Src\Model\Manager;
+use src\model\Manager;
 
 class PostsManager extends Manager {
 
@@ -11,7 +11,7 @@ class PostsManager extends Manager {
 
   public function allPosts() {
     $this->req = $this->pdo->query('SELECT * FROM posts ORDER BY date_creation DESC');
-    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Blog\Post', array(true));
+    $posts = $this->req->fetchAll(PDO::FETCH_CLASS, 'src\model\blog\Post', array(true));
     return $posts;
   }
 
@@ -19,8 +19,16 @@ class PostsManager extends Manager {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('SELECT * FROM posts WHERE id = ?');
     $this->req->execute(array($this->postId));
-    $post = $this->req->fetchObject('Src\Model\Blog\Post');
+    $post = $this->req->fetchObject('src\model\blog\Post');
     return $post;
+  }
+
+  public function user($nameAttribute, $userName) {
+    $this->userName = $userName;
+    $this->req = $this->pdo->prepare('SELECT name, password FROM users WHERE name = ?');
+    $this->req->execute(array($this->userName));
+    $userFetch = $this->req->fetchObject('src\model\user\User');
+    return $userFetch;
   }
 
   public function postUpdate($postData) {

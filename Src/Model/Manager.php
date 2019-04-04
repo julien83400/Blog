@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model;
+namespace src\model;
 
-use \App\DbConfig;
+use \app\DbConfig;
 
 abstract class Manager {
 
@@ -29,7 +29,6 @@ abstract class Manager {
     $sql = 'INSERT INTO ' . $tableName . $rows . ' VALUES ' . $values;
     $this->req = $this->pdo->prepare($sql);
     $result = $this->req->execute($parameters);
-    return $result;
   }
 
   public function delete($id, $class) {
@@ -37,7 +36,6 @@ abstract class Manager {
     $sql = 'DELETE FROM ' . $tableName . ' WHERE id = ?';
     $this->req = $this->pdo->prepare($sql);
     $result = $this->req->execute(array($id));
-    return $result;
   }
 
   private function tableName($object = null, $class = null) {
@@ -100,11 +98,5 @@ abstract class Manager {
     }
     return $parameters;
   }
-
-  // fonction UPDATE
-  // fonction delete
-  // fonction save
-  // fonction findoneby recherche par id
-  // fonction find by recherche par type
 
 }

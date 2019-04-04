@@ -14,7 +14,20 @@
   </script>
   </head>
   <body>
-    <img src="../public/img/aaa.jpg" alt="">
+    <?php
+      if ($this->navbar) {
+      ?>
+      <header>
+        <nav>
+          <div>
+            <p>BILLET SIMPLE POUR L'ALASKA</p>
+            <a href="http://localhost:8888/Project/user/login">Administration</a>
+          </div>
+        </nav>
+      </header>
+      <?php
+      }
+    ?>
     <?= $this->content; ?>
   </body>
 </html>

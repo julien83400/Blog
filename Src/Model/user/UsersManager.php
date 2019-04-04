@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\User;
+namespace src\model\user;
 
-use Src\Model\Manager;
+use src\model\Manager;
 
 class UsersManager extends Manager {
 
@@ -12,7 +12,7 @@ class UsersManager extends Manager {
     $this->userName = $userName;
     $this->req = $this->pdo->prepare('SELECT name, password FROM users WHERE name = ?');
     $this->req->execute(array($this->userName));
-    $userFetch = $this->req->fetchObject('Src\Model\User\User');
+    $userFetch = $this->req->fetchObject('src\model\user\User');
     return $userFetch;
   }
 

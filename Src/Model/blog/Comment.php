@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\Blog;
+namespace src\model\blog;
 
-use Src\Model\Model;
+use src\model\Model;
 
 class Comment extends Model {
 
@@ -45,19 +45,19 @@ class Comment extends Model {
   // GETTERS
 
   public function getPost_id() {
-    return $this->post_id;
+    return htmlspecialchars($this->post_id);
   }
 
   public function getName() {
-    return $this->name;
+    return htmlspecialchars($this->name);
   }
 
   public function getComment() {
-    return $this->comment;
+    return htmlspecialchars($this->comment);
   }
 
   public function getReport() {
-    return $this->report;
+    return htmlspecialchars($this->report);
   }
 
 }

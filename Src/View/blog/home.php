@@ -1,6 +1,6 @@
 <section class="section-wrapper">
   <?php
-  foreach($this->posts as $post) {
+  foreach($this->data['posts'] as $post) {
   ?>
   <div class="home-chapter-container">
     <div class="home-chapter-heading">

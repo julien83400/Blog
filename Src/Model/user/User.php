@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\User;
+namespace src\model\user;
 
-use Src\Model\Model;
+use src\model\Model;
 
 class User extends Model {
 
@@ -32,11 +32,11 @@ class User extends Model {
   // GETTERS
 
   public function getName() {
-    return $this->name;
+    return htmlspecialchars($this->name);
   }
 
   public function getPassword() {
-    return $this->password;
+    return htmlspecialchars($this->password);
   }
 
 }

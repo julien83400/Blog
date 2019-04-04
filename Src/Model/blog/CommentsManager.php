@@ -1,9 +1,9 @@
 <?php
 
-namespace Src\Model\Blog;
+namespace src\model\blog;
 
 use \PDO;
-use Src\Model\Manager;
+use src\model\Manager;
 
 class CommentsManager extends Manager {
 
@@ -13,7 +13,7 @@ class CommentsManager extends Manager {
     $this->postId = $postId;
     $this->req = $this->pdo->prepare('SELECT * FROM comments WHERE post_id = ? ORDER BY date_creation DESC');
     $this->req->execute(array($this->postId));
-    $comments = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Blog\Comment');
+    $comments = $this->req->fetchAll(PDO::FETCH_CLASS, 'src\model\blog\Comment');
     return $comments;
   }
 
@@ -25,7 +25,7 @@ class CommentsManager extends Manager {
 
   public function reportedComments() {
     $this->req = $this->pdo->query('SELECT * FROM comments WHERE report = 1 ORDER BY date_creation DESC');
-    $reportedComments = $this->req->fetchAll(PDO::FETCH_CLASS, 'Src\Model\Blog\Comment');
+    $reportedComments = $this->req->fetchAll(PDO::FETCH_CLASS, 'src\model\blog\Comment');
     return $reportedComments;
   }
 

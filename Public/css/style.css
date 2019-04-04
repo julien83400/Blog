@@ -3,6 +3,32 @@
 	margin: 0;
 }
 
+/* NAVBAR */
+
+nav {
+	width: 100%;
+	background-color: #3c5d80;
+}
+
+nav div {
+	display: flex;
+	height: 80px;
+	justify-content: space-between;
+	width: 800px;
+	margin: 0 auto 0 auto;
+	align-items: center;
+}
+
+nav div p {
+	color: white;
+	font-size: 25px;
+}
+
+nav div a {
+	color: #FFF8BA;
+	text-decoration: none;
+}
+
 /* HOMEPAGE */
 
 .section-wrapper {
@@ -11,7 +37,7 @@
 }
 
 .home-chapter-container {
-  margin-bottom: 50px;;
+  margin-bottom: 50px;
 }
 
 .home-chapter-heading {
@@ -43,6 +69,13 @@
 
 #chapter-heading {
 	margin-bottom: 50px;
+}
+
+#chapter-link {
+	display: inline-block;
+	margin-bottom: 30px;
+	text-decoration: none;
+	color: #6b92bc;
 }
 
 #chapter-comments-section {
@@ -106,7 +139,7 @@
 	height: 100px;
 }
 
-#form-button {
+.form-button {
 	background-color: #FFF8BA;
 	padding: 15px 50px 15px 50px;
 	border: 1px solid white;
@@ -124,9 +157,102 @@
 	margin-bottom: 20px;
 }
 
-/* LOGIN */
+/* REGISTER - LOGIN - ADMIN */
 
-#login-section {
+.box {
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 50px;
 	background-color: #2e4862;
-	padding: 80px 0 80px 0;
+	color: white;
+}
+
+.user-link {
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	border: 1px solid white;
+	margin-top: 20px;
+	padding: 3px;
+}
+
+.box h1 {
+	margin-bottom: 30px;
+}
+
+.box p {
+	color: #FFF8BA;
+	margin-bottom: 20px;
+}
+
+.box p strong {
+	color: white;
+}
+
+.register-form {
+	width: 100%;
+	font-size: 15px;
+	padding: 12px;
+	margin-bottom: 20px;
+	background-color: #6b92bc;
+	color: white;
+	box-sizing: border-box;
+}
+
+.admin-btn {
+	color: black;
+	text-decoration: none;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 1px solid black;
+	display: inline-block;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	background-color: #FFF8BA;
+}
+
+.box h2 {
+	margin-bottom: 20px;
+}
+
+.admin-heading {
+	font-size: 40px;
+}
+
+#chapter-heading {
+	font-size: 40px;
+}
+
+.box .delete-p {
+	color: white;
+}
+
+.delete-form {
+	margin-bottom: 20px;
+}
+
+.box .comment-p {
+	color: white;
+}
+
+.logout {
+	text-decoration: none;
+	display: inline-block;
+	color: white;
+	padding: 5px;
+	background-color: #6b92bc;
+	border: 1px solid black;
+	margin-bottom: 30px;
+}
+
+.btn {
+	padding: 10px;
+	background-color: #FFF8BA;
+	border: 1px solid white;
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	margin-top: 20px;
+	margin-bottom: 20px;
+
 }

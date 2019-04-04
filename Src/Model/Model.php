@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Model;
+namespace src\model;
 
 abstract class Model {
 
@@ -25,11 +25,11 @@ abstract class Model {
   // GETTERS
 
   public function getId() {
-    return $this->id;
+    return htmlspecialchars($this->id);
   }
 
   public function getDate() {
-    return $this->date_creation;
+    return htmlspecialchars($this->date_creation);
   }
 
 }

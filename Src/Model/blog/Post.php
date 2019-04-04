@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\Model\Blog;
+namespace src\model\blog;
 
-use Src\Model\Model;
+use src\model\Model;
 
 class Post extends Model {
 
@@ -43,7 +43,7 @@ class Post extends Model {
   // GETTERS
 
   public function getTitle() {
-    return $this->title;
+    return htmlspecialchars($this->title);
   }
 
   public function getContent() {

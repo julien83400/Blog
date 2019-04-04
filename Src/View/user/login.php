@@ -1,30 +1,26 @@
-<a href="register">Pas encore inscrit ? Inscrivez-vous ici</a>
-<section id="login-section">
-  <div class="chapter-comments-wrapper">
+<section class="chapter-comments-wrapper box">
   <h1>User Login</h1>
   <?php
-  if ($this->loginError) {
+  if (isset($this->error['login'])) {
   ?>
   <p>Veuillez remplir tous les champs pour vous connecter</p>
   <?php
   }
-  else if ($this->nameError) {
+  else if (isset($this->error['name'])) {
   ?>
   <p>Le nom n'est pas valide</p>
   <?php
   }
-  else if ($this->passwordError) {
+  else if ($this->error['password']) {
   ?>
   <p>Le mot de passe n'est pas valide</p>
   <?php
   }
   ?>
   <form method="post">
-    <label for="name">Nom : </label>
-    <input type="text" name="name" id="name"><br>
-    <label for="password">Mot de passe : </label>
-    <input type="password" name="password" id="password"><br>
-    <button type="submit">Connexion</button>
+    <input type="text" name="name" placeholder="Nom" class="comment-form"><br>
+    <input type="password" name="password" placeholder="Mot de passe" class="comment-form"><br>
+    <button type="submit" class="form-button">Connexion</button>
   </form>
-  </div>
+  <a class="user-link" href="register">Pas encore inscrit ? Inscrivez-vous ici</a>
 </section>

@@ -1,73 +1,63 @@
 <?php
 
-namespace Src\Controller;
+namespace src\controller;
 
-use Src\Model\Blog\PostsManager;
-use Src\Model\Blog\CommentsManager;
-use Src\Model\Blog\Comment;
-use Src\Model\Blog\Post;
-use App\Router;
-use App\View;
+use src\model\blog\PostsManager;
+use src\model\blog\CommentsManager;
+use src\model\blog\Comment;
+use src\model\blog\Post;
+use app\Router;
+use app\View;
 
-class BlogController extends View {
+class BlogController {
 
   // ATTRIBUTES
 
-  protected $posts;
-  protected $post;
-  protected $comments;
-  protected $reportedComments;
-  protected $addCommentError;
-  protected $chapterId;
-  protected $postUpdated;
-  protected $postCreateError;
-  protected $postCreated;
-  protected $postDeleted;
-  protected $commentCreated;
   private $postsManager;
   private $commentsManager;
-  private $comment;
-  private $entry;
+  private $view;
 
   // FUNCTIONS
 
   public function __construct() {
     $this->postsManager = new PostsManager();
     $this->commentsManager = new CommentsManager();
+    $this->view = new View();
   }
 
   public function home() {
     $this->getAllPosts();
-    $this->render(__CLASS__, __FUNCTION__);
+    $this->view->render(__CLASS__, __FUNCTION__);
   }
 
   public function chapter($chapterId) {
-    $this->chapterId = $chapterId;
-    $this->entry = $this->postsManager->chapterIdCheck($this->chapterId);
-    if ($this->entry['nb_id'] > 0) {
-      $this->commentAddCheck();
+    $entry = $this->postsManager->chapterIdCheck($chapterId);
+    if ($entry['nb_id'] > 0) {
+      $this->commentAddCheck($chapterId);
       $this->commentReportCheck();
-      $this->getSinglePost();
-      $this->comments = $this->commentsManager->comments($this->chapterId);
-      $this->render(__CLASS__, __FUNCTION__);
+      $this->getSinglePost($chapterId);
+      $comments = $this->commentsManager->comments($chapterId);
+      $this->view->assign('comments', $comments);
+      $this->view->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::urlNotFound();
     }
   }
 
-  private function commentAddCheck() {
+  private function commentAddCheck($chapterId) {
     if (!empty($_POST['name']) && !empty($_POST['comment'])) {
-      $this->comment = new Comment(true, array(
-        'postId' => $this->chapterId,
+      $comment = new Comment(true, array(
+        'postId' => $chapterId,
         'name' => $_POST['name'],
         'comment' => $_POST['comment'],
         'report' => 0
       ));
-      $this->commentCreated = $this->commentsManager->add($this->comment);
+      $this->commentsManager->add($comment);
+      $this->view->confirmAssign('commentCreated', true);
     }
     else if (isset($_POST['name']) && isset($_POST['comment'])) {
-      $this->addCommentError = true;
+      $this->view->errorAssign('addComment', true);
     }
   }
 
@@ -79,7 +69,7 @@ class BlogController extends View {
 
   public function admin() {
     if (isset($_SESSION['name'])) {
-      $this->render(__CLASS__, __FUNCTION__);
+      $this->view->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -89,19 +79,19 @@ class BlogController extends View {
   public function create() {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['title']) && !empty($_POST['content'])) {
-        $this->post = new Post(false, true, array(
+        $post = new Post(false, true, array(
           'title' => $_POST['title'],
           'content' => $_POST['content']
         ));
-        // $this->post->getManager()->save()
-        $this->postCreated = $this->postsManager->add($this->post);
+        $this->postsManager->add($post);
+        $this->view->confirmAssign('postCreated', true);
       }
       else {
         if (isset($_POST['title']) && isset($_POST['content'])) {
-          $this->postCreateError = true;
+          $this->view->errorAssign('postCreate', true);
         }
       }
-      $this->render(__CLASS__, __FUNCTION__);
+      $this->view->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -110,19 +100,20 @@ class BlogController extends View {
 
   public function update($chapterId = null) {
     if (isset($_SESSION['name'])) {
-      $this->chapterId = $chapterId;
-      if ($this->chapterId !== null) {
-        $this->entry = $this->postsManager->chapterIdCheck($this->chapterId);
-        if ($this->entry['nb_id'] > 0) {
+      $this->view->assign('chapterId', $chapterId);
+      if ($chapterId !== null) {
+        $entry = $this->postsManager->chapterIdCheck($chapterId);
+        if ($entry['nb_id'] > 0) {
           if (!empty($_POST['title']) && !empty($_POST['content'])) {
-            $this->postUpdated = $this->postsManager->postUpdate(array(
-              'postId' => $this->chapterId,
+            $this->postsManager->postUpdate(array(
+              'postId' => $chapterId,
               'title' => $_POST['title'],
               'content' => $_POST['content']
             ));
+            $this->view->confirmAssign('postUpdated', true);
           }
-          $this->getSinglePost();
-          $this->render(__CLASS__, __FUNCTION__);
+          $this->getSinglePost($chapterId);
+          $this->view->render(__CLASS__, __FUNCTION__);
         }
         else {
           Router::urlNotFound();
@@ -130,7 +121,7 @@ class BlogController extends View {
       }
       else {
         $this->getAllPosts();
-        $this->render(__CLASS__, __FUNCTION__);
+        $this->view->render(__CLASS__, __FUNCTION__);
       }
     }
     else {
@@ -141,13 +132,14 @@ class BlogController extends View {
   public function delete() {
     if (isset($_SESSION['name'])) {
       if (!empty($_POST['delete'])) {
-        $this->chapterId = $_POST['delete'];
+        $chapterId = $_POST['delete'];
         $class = get_class($this->postsManager);
-        $this->postDeleted = $this->postsManager->delete($this->chapterId, $class);
-        $this->commentsManager->commentsDelete($this->chapterId);
+        $this->postsManager->delete($chapterId, $class);
+        $this->view->confirmAssign('postDeleted', true);
+        $this->commentsManager->commentsDelete($chapterId);
       }
       $this->getAllPosts();
-      $this->render(__CLASS__, __FUNCTION__);
+      $this->view->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -160,8 +152,9 @@ class BlogController extends View {
         $class = get_class($this->commentsManager);
         $this->commentsManager->delete($_POST['delete'], $class);
       }
-      $this->reportedComments = $this->commentsManager->reportedComments();
-      $this->render(__CLASS__, __FUNCTION__);
+      $reportedComments = $this->commentsManager->reportedComments();
+      $this->view->assign('reportedComments', $reportedComments);
+      $this->view->render(__CLASS__, __FUNCTION__);
     }
     else {
       Router::sessionError();
@@ -169,13 +162,13 @@ class BlogController extends View {
   }
 
   private function getAllPosts() {
-    // $posts = $this->postsManager->allPosts();
-    // $view->assign('posts', $posts)
-    $this->posts = $this->postsManager->allPosts();
+    $posts = $this->postsManager->allPosts();
+    $this->view->assign('posts', $posts);
   }
 
-  private function getSinglePost() {
-    $this->post = $this->postsManager->singlePost($this->chapterId);
+  private function getSinglePost($chapterId) {
+    $post = $this->postsManager->singlePost($chapterId);
+    $this->view->assign('post', $post);
   }
 
 }

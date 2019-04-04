@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace app;
 
-use Src\Controller\BlogController;
+use src\controller\BlogController;
 
 class Router {
 
@@ -61,6 +61,7 @@ class Router {
   }
 
   public static function urlNotFound() {
+
     echo 'Erreur 404 Not Found';
   }
 

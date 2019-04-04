@@ -1,40 +1,40 @@
 <?php
-if ($this->chapterId !== null) {
+if ($this->data['chapterId'] !== null) {
 ?>
-  <div>
-    <a href="../update">Retour à la liste des chapitres</a>
-    <h1>Édition du chapitre</h1>
+  <section class="chapter-comments-wrapper box">
+    <a class="logout" href="../update">Retour à la liste des chapitres</a>
+    <h1 class="admin-heading">Édition du chapitre</h1>
     <form method="post">
       <label for="title">Titre du chapitre : </label><br>
-      <input type="text" name="title" id="title" value="<?= $this->post->getTitle(); ?>"><br>
+      <input type="text" class="comment-form" name="title" id="title" value="<?= $this->data['post']->getTitle(); ?>"><br>
       <label for="content">Contenu du chapitre : </label>
-      <textarea class="chapter" name="content" id="content"><?= $this->post->getContent(); ?></textarea>
-      <button type="submit">Mettre à jour</button>
+      <textarea class="chapter" name="content" id="content"><?= $this->data['post']->getContent(); ?></textarea>
+      <button class="btn" type="submit">Mettre à jour</button>
     </form>
     <?php
-    if ($this->postUpdated) {
+    if ($this->confirm['postUpdated']) {
     ?>
     <p>Le Chapitre a bien été mis à jour</p>
     <?php
     }
     ?>
-  </div>
+  </section>
 <?php
 }
 else {
 ?>
-  <div>
-    <a href="admin">Retour à l'interface d'administration</a>
-    <h1>Liste des chapitres</h1>
+  <section class="chapter-comments-wrapper box">
+    <a class="logout" href="admin">Retour à l'interface d'administration</a>
+    <h1 class="admin-heading">Liste des chapitres</h1>
     <?php
-    foreach($this->posts as $post) {
+    foreach($this->data['posts'] as $post) {
     ?>
       <h2><?= $post->getTitle(); ?></h2>
-      <a href="update/<?= $post->getId() ?>">Éditer le chapitre</a>
+      <a class="admin-btn" href="update/<?= $post->getId() ?>">Éditer le chapitre</a>
     <?php
     }
     ?>
-  </div>
+  </section>
 <?php
 }
 ?>
