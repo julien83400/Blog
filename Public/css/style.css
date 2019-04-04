@@ -12,7 +12,7 @@ nav {
 
 nav div {
 	display: flex;
-	height: 80px;
+	height: 100px;
 	justify-content: space-between;
 	width: 800px;
 	margin: 0 auto 0 auto;
@@ -254,5 +254,42 @@ nav div a {
 	font-weight: 600;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
 
+/* MEDIAS QUERIES */
+
+@media all and (max-width: 800px)
+{
+  .section-wrapper {
+    width: 100%;
+		padding-left: 20px;
+		padding-right: 20px;
+		box-sizing: border-box;
+  }
+
+	nav div {
+		width: 100%;
+		box-sizing: border-box;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.chapter-comments-wrapper {
+		width: 100%;
+		padding-left: 20px;
+		padding-right: 20px;
+		box-sizing: border-box;
+	}
+}
+
+@media all and (max-width: 475px)
+{
+	.home-chapter-heading {
+		display: block;
+	}
+
+	.home-chapter-date {
+		display: inline-block;
+		margin-top: 10px;
+	}
 }
